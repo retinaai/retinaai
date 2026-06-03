@@ -103,6 +103,24 @@
         </div>
     </div>
 
+    <div class="mobile-mode-bar">
+        <button id="mobile-mode-toggle" class="mobile-mode-toggle" type="button" onclick="toggleMobileModeMenu()" aria-expanded="false" aria-controls="mobile-mode-drawer">
+            <span class="mobile-mode-label-wrap">
+                <span class="mobile-mode-caption">Egzersiz Menüsü</span>
+                <span id="mobile-mode-current" class="mobile-mode-current">Postür</span>
+            </span>
+            <span class="mobile-mode-icon">☰</span>
+        </button>
+        <div id="mobile-mode-drawer" class="mobile-mode-drawer">
+            <button class="mobile-mode-item active" type="button" data-mode="posture" onclick="selectMobileMode('posture')">Postür</button>
+            <button class="mobile-mode-item" type="button" data-mode="catcow" onclick="selectMobileMode('catcow')">Kedi-İnek</button>
+            <button class="mobile-mode-item" type="button" data-mode="birddog" onclick="selectMobileMode('birddog')">Kuş-Köpek</button>
+            <button class="mobile-mode-item" type="button" data-mode="doorway" onclick="selectMobileMode('doorway')">Eşik Esneme</button>
+            <button class="mobile-mode-item" type="button" data-mode="plank" onclick="selectMobileMode('plank')">Plank</button>
+            <button class="mobile-mode-item" type="button" data-mode="bridge" onclick="selectMobileMode('bridge')">Köprü</button>
+        </div>
+    </div>
+
     <div class="bottom-shelf">
         <button id="btn-posture" class="nav-item active" onclick="switchMode('posture')">POSTÜR</button>
         <button id="btn-catcow" class="nav-item" onclick="switchMode('catcow')">KEDİ-İNEK</button>
