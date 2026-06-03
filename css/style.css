@@ -3527,3 +3527,99 @@ body > .app-bar.clean-navbar {
         font-size: 8px !important;
     }
 }
+
+
+/* ===============================
+   Mobile stats: single row, nothing removed
+   6 stats stay visible in one row + score bar stays
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats {
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 18px !important;
+        width: auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        grid-auto-flow: row !important;
+        gap: 3px !important;
+        overflow: visible !important;
+        white-space: normal !important;
+        padding: 4px 4px 10px !important;
+        border-radius: 12px !important;
+    }
+
+    .live-stats .stat-item {
+        min-width: 0 !important;
+        max-width: none !important;
+        width: auto !important;
+        padding: 4px 3px !important;
+        border-radius: 8px !important;
+        gap: 1px !important;
+    }
+
+    .live-stats .stat-label {
+        font-size: 5.9px !important;
+        line-height: 1 !important;
+        letter-spacing: .06px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 8.9px !important;
+        line-height: 1.04 !important;
+        font-weight: 900 !important;
+        white-space: nowrap !important;
+    }
+
+    .live-stats .score-meter {
+        display: block !important;
+        position: absolute !important;
+        left: 5px !important;
+        right: 5px !important;
+        bottom: 3px !important;
+        height: 3px !important;
+        margin: 0 !important;
+        grid-column: auto !important;
+    }
+
+    /* alert sits above the single-row stats bar */
+    .alert-hub {
+        bottom: 62px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats {
+        left: 7px !important;
+        right: 7px !important;
+        bottom: 16px !important;
+        gap: 2px !important;
+        padding: 4px 4px 9px !important;
+    }
+
+    .live-stats .stat-item {
+        padding: 3px 2px !important;
+        border-radius: 7px !important;
+    }
+
+    .live-stats .stat-label {
+        font-size: 5.3px !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 8.1px !important;
+    }
+
+    .live-stats .score-meter {
+        left: 4px !important;
+        right: 4px !important;
+        bottom: 3px !important;
+    }
+
+    .alert-hub {
+        bottom: 58px !important;
+    }
+}
