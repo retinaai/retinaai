@@ -85,15 +85,15 @@
     <div class="stage">
         <div class="viewport-wrapper">
             <div class="live-stats">
-                <div class="stat-item"><span class="stat-label">Doğru Form</span><span id="timer-good"
+                <div class="stat-item" data-full-label="Doğru Form"><span class="stat-label">Doğru Form</span><span id="timer-good"
                         class="stat-value text-success">00:00</span></div>
-                <div class="stat-item"><span class="stat-label">Hatalı Form</span><span id="timer-bad"
+                <div class="stat-item" data-full-label="Hatalı Form"><span class="stat-label">Hatalı Form</span><span id="timer-bad"
                         class="stat-value text-danger">00:00</span></div>
-                <div class="stat-item" style="margin-top:15px; border-top:1px solid #334155; padding-top:15px;"><span class="stat-label">Form Skoru</span><span id="form-score" class="stat-value text-success">100</span></div>
+                <div class="stat-item" data-full-label="Form Skoru" style="margin-top:15px; border-top:1px solid #334155; padding-top:15px;"><span class="stat-label">Form Skoru</span><span id="form-score" class="stat-value text-success">100</span></div>
                 <div class="score-meter"><span id="form-score-bar"></span></div>
-                <div class="stat-item"><span class="stat-label">Analiz Güveni</span><span id="confidence-score" class="stat-value">--%</span></div>
-                <div class="stat-item"><span class="stat-label">Tekrar / Set</span><span id="rep-counter" class="stat-value">0 / 0</span></div>
-                <div class="stat-item"><span class="stat-label">İhlal Sayısı</span><span id="count-breaks" class="stat-value">0</span></div>
+                <div class="stat-item" data-full-label="Analiz Güveni"><span class="stat-label">Analiz Güveni</span><span id="confidence-score" class="stat-value">--%</span></div>
+                <div class="stat-item" data-full-label="Tekrar / Set"><span class="stat-label">Tekrar / Set</span><span id="rep-counter" class="stat-value">0 / 0</span></div>
+                <div class="stat-item" data-full-label="İhlal Sayısı"><span class="stat-label">İhlal Sayısı</span><span id="count-breaks" class="stat-value">0</span></div>
             </div>
 
             <!-- Postür Modu İçin Seçici (Ayakta / Oturarak) -->
@@ -117,6 +117,7 @@
             <video id="input_video" autoplay playsinline muted style="display:none;"></video>
             <canvas id="output_canvas"></canvas>
             <div class="alert-hub">
+                <div id="mobile-stat-popover" class="mobile-stat-popover" aria-live="polite"></div>
                 <div id="alert-main">SİSTEM BAŞLATILIYOR</div>
                 <div id="alert-sub">Lütfen kameraya doğru pozisyon alın.</div>
             </div>
@@ -173,6 +174,111 @@
         </div>
     </div>
     <script src="js/app.js"></script>
+
+    <script>
+        (function () {
+            let statPopoverTimer = null;
+
+            function getStatTitle(item) {
+                return item.dataset.fullLabel || item.querySelector('.stat-label')?.textContent?.trim() || '';
+            }
+
+            function getStatValue(item) {
+                return item.querySelector('.stat-value')?.textContent?.trim() || '';
+            }
+
+            function showMobileStatPopover(item) {
+                if (!window.matchMedia('(max-width: 768px)').matches) return;
+                const popover = document.getElementById('mobile-stat-popover');
+                if (!popover || !item) return;
+
+                document.querySelectorAll('.live-stats .stat-item').forEach(el => el.classList.remove('stat-touch-active'));
+                item.classList.add('stat-touch-active');
+
+                const title = getStatTitle(item);
+                const value = getStatValue(item);
+                popover.innerHTML = `<strong>${title}</strong><span>${value}</span>`;
+                popover.classList.add('show');
+
+                clearTimeout(statPopoverTimer);
+                statPopoverTimer = setTimeout(() => {
+                    popover.classList.remove('show');
+                    item.classList.remove('stat-touch-active');
+                }, 2200);
+            }
+
+            document.addEventListener('click', function (event) {
+                const item = event.target.closest('.live-stats .stat-item');
+                if (item) showMobileStatPopover(item);
+                else if (!event.target.closest('.mobile-stat-popover')) {
+                    const popover = document.getElementById('mobile-stat-popover');
+                    if (popover) popover.classList.remove('show');
+                    document.querySelectorAll('.live-stats .stat-item').forEach(el => el.classList.remove('stat-touch-active'));
+                }
+            });
+        })();
+    </script>
+
+
+    <script>
+        (function () {
+            let inlineStatTimer = null;
+
+            function closeInlineStatCards() {
+                document.querySelectorAll('.live-stats .stat-item').forEach((item) => {
+                    item.classList.remove('stat-touch-inline-active', 'inline-left-edge', 'inline-right-edge');
+                    const bubble = item.querySelector('.stat-inline-pop');
+                    if (bubble) bubble.remove();
+                });
+            }
+
+            function makeInlineBubble(item) {
+                const fullLabel = item.dataset.fullLabel || item.querySelector('.stat-label')?.textContent?.trim() || '';
+                const value = item.querySelector('.stat-value')?.textContent?.trim() || '';
+
+                const bubble = document.createElement('div');
+                bubble.className = 'stat-inline-pop';
+                bubble.innerHTML = `<strong>${fullLabel}</strong><span>${value}</span>`;
+                item.appendChild(bubble);
+
+                // Edge-aware placement
+                const row = item.closest('.live-stats');
+                if (row) {
+                    const itemRect = item.getBoundingClientRect();
+                    const rowRect = row.getBoundingClientRect();
+                    if ((itemRect.left - rowRect.left) < 28) {
+                        item.classList.add('inline-left-edge');
+                    } else if ((rowRect.right - itemRect.right) < 28) {
+                        item.classList.add('inline-right-edge');
+                    }
+                }
+            }
+
+            document.addEventListener('click', function (event) {
+                if (!window.matchMedia('(max-width: 768px)').matches) return;
+
+                const item = event.target.closest('.live-stats .stat-item');
+                if (item) {
+                    const alreadyOpen = item.classList.contains('stat-touch-inline-active');
+                    closeInlineStatCards();
+
+                    if (!alreadyOpen) {
+                        item.classList.add('stat-touch-inline-active');
+                        makeInlineBubble(item);
+
+                        clearTimeout(inlineStatTimer);
+                        inlineStatTimer = setTimeout(() => {
+                            closeInlineStatCards();
+                        }, 2200);
+                    }
+                } else if (!event.target.closest('.stat-inline-pop')) {
+                    clearTimeout(inlineStatTimer);
+                    closeInlineStatCards();
+                }
+            });
+        })();
+    </script>
+
 </body>
 
 </html>

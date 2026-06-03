@@ -3992,3 +3992,303 @@ body > .app-bar.clean-navbar {
         bottom: 126px !important;
     }
 }
+
+
+/* ===============================
+   Mobile stat tap full text popover
+   =============================== */
+.mobile-stat-popover {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .live-stats .stat-item {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .live-stats .stat-item.stat-touch-active {
+        border-color: rgba(0, 242, 254, 0.55) !important;
+        background: rgba(15, 23, 42, 0.82) !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 0 1px rgba(0,242,254,0.10);
+    }
+
+    .mobile-stat-popover {
+        position: absolute;
+        right: 10px;
+        bottom: 158px;
+        z-index: 106;
+        min-width: 150px;
+        max-width: 240px;
+        padding: 8px 10px;
+        border-radius: 13px;
+        border: 1px solid rgba(0, 242, 254, 0.34);
+        background: rgba(15, 23, 42, 0.94);
+        color: #f8fafc;
+        box-shadow: 0 12px 28px rgba(2, 6, 23, 0.36);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        pointer-events: none;
+    }
+
+    .mobile-stat-popover.show {
+        display: grid;
+        gap: 3px;
+    }
+
+    .mobile-stat-popover strong {
+        font-size: 11px;
+        line-height: 1.1;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: .35px;
+    }
+
+    .mobile-stat-popover span {
+        font-size: 16px;
+        line-height: 1.1;
+        font-weight: 900;
+        color: #ffffff;
+    }
+}
+
+@media (max-width: 420px) {
+    .mobile-stat-popover {
+        right: 8px;
+        bottom: 150px;
+        max-width: 210px;
+        padding: 7px 9px;
+    }
+
+    .mobile-stat-popover strong {
+        font-size: 10px;
+    }
+
+    .mobile-stat-popover span {
+        font-size: 14px;
+    }
+}
+
+
+/* ===============================
+   Mobile stat tap: show full content on the same stat block
+   =============================== */
+.mobile-stat-popover {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .live-stats {
+        overflow: visible !important;
+    }
+
+    .live-stats .stat-item {
+        position: relative !important;
+        overflow: visible !important;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .live-stats .stat-item.stat-touch-inline-active {
+        z-index: 108 !important;
+        border-color: rgba(0, 242, 254, 0.55) !important;
+        background: rgba(15, 23, 42, 0.92) !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(0,242,254,0.10);
+    }
+
+    .live-stats .stat-inline-pop {
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 8px);
+        transform: translateX(-50%);
+        min-width: 120px;
+        max-width: 170px;
+        padding: 8px 10px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 242, 254, 0.32);
+        background: rgba(15, 23, 42, 0.96);
+        color: #f8fafc;
+        box-shadow: 0 12px 28px rgba(2, 6, 23, 0.36);
+        display: grid;
+        gap: 3px;
+        pointer-events: none;
+        white-space: normal;
+        text-align: left;
+    }
+
+    .live-stats .stat-item.inline-left-edge .stat-inline-pop {
+        left: 0;
+        transform: none;
+    }
+
+    .live-stats .stat-item.inline-right-edge .stat-inline-pop {
+        left: auto;
+        right: 0;
+        transform: none;
+    }
+
+    .live-stats .stat-inline-pop strong {
+        font-size: 10px;
+        line-height: 1.1;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: .28px;
+    }
+
+    .live-stats .stat-inline-pop span {
+        font-size: 15px;
+        line-height: 1.08;
+        font-weight: 900;
+        color: #ffffff;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats .stat-inline-pop {
+        min-width: 108px;
+        max-width: 150px;
+        padding: 7px 9px;
+        border-radius: 12px;
+    }
+
+    .live-stats .stat-inline-pop strong {
+        font-size: 9px;
+    }
+
+    .live-stats .stat-inline-pop span {
+        font-size: 13px;
+    }
+}
+
+
+/* ===============================
+   Mobile stat tap: show full content inside the same stat block
+   Prevent overlap with the alert panel
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats .stat-item.stat-touch-inline-active {
+        min-height: 56px !important;
+        padding: 4px !important;
+        z-index: 110 !important;
+        overflow: visible !important;
+    }
+
+    .live-stats .stat-item.stat-touch-inline-active .stat-label,
+    .live-stats .stat-item.stat-touch-inline-active .stat-value {
+        visibility: hidden !important;
+    }
+
+    .live-stats .stat-inline-pop {
+        position: absolute !important;
+        inset: 0 !important;
+        transform: none !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        padding: 5px 6px !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(0, 242, 254, 0.34) !important;
+        background: rgba(15, 23, 42, 0.96) !important;
+        color: #f8fafc !important;
+        box-shadow: none !important;
+        display: grid !important;
+        align-content: center !important;
+        gap: 3px !important;
+        pointer-events: none !important;
+        white-space: normal !important;
+        text-align: center !important;
+    }
+
+    .live-stats .stat-item.inline-left-edge .stat-inline-pop,
+    .live-stats .stat-item.inline-right-edge .stat-inline-pop {
+        left: 0 !important;
+        right: 0 !important;
+        transform: none !important;
+    }
+
+    .live-stats .stat-inline-pop strong {
+        font-size: 7px !important;
+        line-height: 1.05 !important;
+        color: #cbd5e1 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .18px !important;
+    }
+
+    .live-stats .stat-inline-pop span {
+        font-size: 11px !important;
+        line-height: 1.05 !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats .stat-item.stat-touch-inline-active {
+        min-height: 52px !important;
+    }
+
+    .live-stats .stat-inline-pop {
+        padding: 4px 5px !important;
+        border-radius: 7px !important;
+        gap: 2px !important;
+    }
+
+    .live-stats .stat-inline-pop strong {
+        font-size: 6.3px !important;
+    }
+
+    .live-stats .stat-inline-pop span {
+        font-size: 10px !important;
+    }
+}
+
+
+/* ===============================
+   Mobile stat inline soft open animation
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats .stat-item {
+        transition:
+            min-height .24s cubic-bezier(.2, .8, .2, 1),
+            padding .24s cubic-bezier(.2, .8, .2, 1),
+            border-color .22s ease,
+            background .22s ease,
+            box-shadow .22s ease,
+            transform .22s ease !important;
+    }
+
+    .live-stats .stat-item.stat-touch-inline-active {
+        transform: translateY(-1px) !important;
+    }
+
+    .live-stats .stat-item.stat-touch-inline-active .stat-label,
+    .live-stats .stat-item.stat-touch-inline-active .stat-value {
+        opacity: 0 !important;
+        transition: opacity .12s ease !important;
+    }
+
+    .live-stats .stat-inline-pop {
+        opacity: 0;
+        animation: statInlineSoftOpen .26s cubic-bezier(.2, .8, .2, 1) forwards;
+        will-change: opacity, filter;
+    }
+
+    @keyframes statInlineSoftOpen {
+        0% {
+            opacity: 0;
+            filter: blur(2px);
+        }
+        100% {
+            opacity: 1;
+            filter: blur(0);
+        }
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats .stat-inline-pop {
+        animation-duration: .24s;
+    }
+}
