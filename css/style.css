@@ -3094,3 +3094,148 @@ body > .app-bar.clean-navbar {
         padding-top: 5px !important;
     }
 }
+
+
+/* ===============================
+   REAL mobile collapsed header fix
+   This visibly reduces header height.
+   =============================== */
+.mobile-top-menu-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .app-bar.clean-navbar,
+    .clean-navbar {
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        align-items: center !important;
+        gap: 6px !important;
+        margin: 6px 8px 0 !important;
+        padding: 6px !important;
+        border-radius: 16px !important;
+        min-height: 46px !important;
+    }
+
+    .clean-navbar .brand-link,
+    .app-bar.clean-navbar .brand-link {
+        justify-self: start !important;
+        margin: 0 !important;
+        min-height: 34px !important;
+        padding: 0 12px !important;
+        font-size: 15px !important;
+        letter-spacing: 2px !important;
+        border-radius: 12px !important;
+    }
+
+    .mobile-top-menu-toggle {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(71, 85, 105, 0.55);
+        background: rgba(30, 41, 59, 0.72);
+        color: #f8fafc;
+        font-weight: 900;
+        font-size: 11px;
+        letter-spacing: .2px;
+        cursor: pointer;
+    }
+
+    /* Top navbar items are collapsed by default on mobile */
+    .clean-navbar .unified-menu {
+        display: none !important;
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        flex-basis: auto !important;
+        margin: 4px 0 0 !important;
+        padding: 6px !important;
+        border-radius: 14px !important;
+        background: rgba(2, 6, 23, 0.30) !important;
+        gap: 5px !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+    }
+
+    .clean-navbar.mobile-menu-open .unified-menu {
+        display: flex !important;
+    }
+
+    .clean-navbar .unified-menu a,
+    .clean-navbar .unified-menu .menu-btn {
+        min-height: 32px !important;
+        padding: 0 10px !important;
+        font-size: 9px !important;
+        border-radius: 10px !important;
+    }
+
+    /* Exercise mode bar becomes a very thin header sub-bar */
+    .mobile-mode-bar {
+        margin: 5px 8px 6px !important;
+    }
+
+    .mobile-mode-toggle {
+        min-height: 34px !important;
+        padding: 5px 10px !important;
+        border-radius: 13px !important;
+    }
+
+    .mobile-mode-current {
+        font-size: 12px !important;
+        line-height: 1 !important;
+    }
+
+    .mobile-mode-icon {
+        font-size: 17px !important;
+    }
+
+    .mobile-mode-drawer {
+        margin-top: 5px !important;
+        padding: 7px !important;
+        gap: 6px !important;
+        border-radius: 13px !important;
+    }
+
+    .mobile-mode-item {
+        min-height: 34px !important;
+        font-size: 9px !important;
+        border-radius: 10px !important;
+    }
+
+    .stage {
+        padding-top: 4px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .app-bar.clean-navbar,
+    .clean-navbar {
+        margin: 5px 6px 0 !important;
+        padding: 5px !important;
+        min-height: 44px !important;
+    }
+
+    .clean-navbar .brand-link,
+    .app-bar.clean-navbar .brand-link {
+        min-height: 32px !important;
+        font-size: 14px !important;
+        letter-spacing: 1.8px !important;
+    }
+
+    .mobile-top-menu-toggle {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 10px;
+    }
+
+    .mobile-mode-bar {
+        margin: 4px 6px 6px !important;
+    }
+
+    .mobile-mode-toggle {
+        min-height: 32px !important;
+        padding: 5px 9px !important;
+    }
+}

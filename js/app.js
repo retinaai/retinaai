@@ -3001,6 +3001,17 @@
         }
     }
 
+
+    function toggleMobileTopMenu() {
+        const bar = document.querySelector('.clean-navbar');
+        const btn = document.getElementById('mobile-top-menu-toggle');
+        if (!bar) return;
+        const open = !bar.classList.contains('mobile-menu-open');
+        bar.classList.toggle('mobile-menu-open', open);
+        if (btn) btn.innerText = open ? '✕ Kapat' : '☰ Menü';
+    }
+    window.toggleMobileTopMenu = toggleMobileTopMenu;
+
     function registerPWA() {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js').catch(() => {});
