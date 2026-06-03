@@ -3239,3 +3239,138 @@ body > .app-bar.clean-navbar {
         padding: 5px 9px !important;
     }
 }
+
+
+/* ===============================
+   Mobile responsive stats fix
+   480px üstü: tek satır
+   480px altı: 3 + 3 iki satır
+   =============================== */
+
+/* Dar olmayan mobilde tek satır kalsın ama taşarsa yatay kaydırılabilsin */
+@media (min-width: 481px) and (max-width: 768px) {
+    .live-stats {
+        display: flex !important;
+        align-items: stretch !important;
+        gap: 4px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        white-space: nowrap !important;
+        padding: 5px 6px 12px !important;
+        scrollbar-width: none;
+    }
+
+    .live-stats::-webkit-scrollbar {
+        display: none;
+    }
+
+    .live-stats .stat-item {
+        flex: 0 0 auto !important;
+        min-width: 82px !important;
+        max-width: 104px !important;
+    }
+
+    .live-stats .score-meter {
+        position: absolute !important;
+        left: 7px !important;
+        right: 7px !important;
+        bottom: 4px !important;
+        height: 3px !important;
+        margin: 0 !important;
+    }
+}
+
+/* Çok dar mobilde tek satıra zorlamayı bırak: 3 + 3 düzen */
+@media (max-width: 480px) {
+    .live-stats {
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 8px !important;
+        width: auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        grid-auto-flow: row !important;
+        grid-auto-columns: auto !important;
+        gap: 3px !important;
+        overflow: visible !important;
+        white-space: normal !important;
+        padding: 4px 4px 10px !important;
+        border-radius: 12px !important;
+    }
+
+    .live-stats .stat-item {
+        min-width: 0 !important;
+        max-width: none !important;
+        width: auto !important;
+        padding: 3px 3px !important;
+        border-radius: 8px !important;
+    }
+
+    .live-stats .stat-label {
+        font-size: 5.8px !important;
+        line-height: 1 !important;
+        letter-spacing: .05px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 8.5px !important;
+        line-height: 1.02 !important;
+        font-weight: 900 !important;
+        white-space: nowrap !important;
+    }
+
+    .live-stats .score-meter {
+        display: block !important;
+        position: absolute !important;
+        left: 5px !important;
+        right: 5px !important;
+        bottom: 3px !important;
+        height: 3px !important;
+        margin: 0 !important;
+        grid-column: auto !important;
+    }
+
+    /* Uyarı paneli, 2 satırlı stats panelinin üstüne gelsin */
+    .alert-hub {
+        bottom: 82px !important;
+        left: 8px !important;
+        right: 8px !important;
+        max-width: none !important;
+    }
+}
+
+/* Çok kısa telefonlarda alt panelin kesilmesini azalt */
+@media (max-width: 480px) and (max-height: 760px) {
+    .live-stats {
+        padding: 3px 4px 9px !important;
+        gap: 2px !important;
+    }
+
+    .live-stats .stat-item {
+        padding: 3px 2px !important;
+    }
+
+    .live-stats .stat-label {
+        font-size: 5.3px !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 8px !important;
+    }
+
+    .alert-hub {
+        bottom: 76px !important;
+        padding: 5px 8px !important;
+    }
+
+    #alert-main {
+        font-size: 10px !important;
+    }
+
+    #alert-sub {
+        font-size: 7px !important;
+    }
+}
