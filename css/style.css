@@ -2959,3 +2959,138 @@ body > .app-bar.clean-navbar {
         padding-bottom: 16px !important;
     }
 }
+
+
+/* ===============================
+   Ultra compact mobile header
+   =============================== */
+@media (max-width: 768px) {
+    /* Header dış çerçevesini küçült */
+    .app-bar.clean-navbar,
+    .clean-navbar {
+        top: 6px !important;
+        margin: 6px 8px 0 !important;
+        width: auto !important;
+        padding: 7px 8px !important;
+        border-radius: 16px !important;
+        gap: 6px !important;
+    }
+
+    /* Logo daha küçük ve daha az yüksek */
+    .clean-navbar .brand-link,
+    .app-bar.clean-navbar .brand-link {
+        min-height: 34px !important;
+        padding: 0 12px !important;
+        font-size: 15px !important;
+        letter-spacing: 2px !important;
+        border-radius: 12px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Üst navbar butonlarını incelt */
+    .unified-menu {
+        width: 100% !important;
+        flex-basis: 100% !important;
+        gap: 4px !important;
+        padding-bottom: 1px !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+    }
+
+    .unified-menu a,
+    .unified-menu .menu-btn,
+    .clean-navbar .action-btn {
+        min-height: 34px !important;
+        padding: 0 10px !important;
+        font-size: 9.5px !important;
+        border-radius: 11px !important;
+        letter-spacing: .2px !important;
+    }
+
+    /* Postür hamburger barını daha ince yap */
+    .mobile-mode-bar {
+        margin: 6px 8px 8px !important;
+    }
+
+    .mobile-mode-toggle {
+        min-height: 38px !important;
+        padding: 6px 10px !important;
+        border-radius: 13px !important;
+    }
+
+    .mobile-mode-current {
+        font-size: 13px !important;
+        line-height: 1 !important;
+    }
+
+    .mobile-mode-icon {
+        font-size: 18px !important;
+    }
+
+    .mobile-mode-drawer {
+        margin-top: 5px !important;
+        padding: 7px !important;
+        gap: 6px !important;
+        border-radius: 13px !important;
+    }
+
+    .mobile-mode-item {
+        min-height: 36px !important;
+        padding: 0 8px !important;
+        font-size: 9.5px !important;
+        border-radius: 10px !important;
+    }
+
+    /* Kamera alanını yukarı al, header sonrası boşluğu azalt */
+    .stage {
+        padding-top: 6px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .app-bar.clean-navbar,
+    .clean-navbar {
+        margin: 5px 6px 0 !important;
+        padding: 6px !important;
+        border-radius: 15px !important;
+    }
+
+    .clean-navbar .brand-link,
+    .app-bar.clean-navbar .brand-link {
+        min-height: 32px !important;
+        padding: 0 10px !important;
+        font-size: 14px !important;
+        letter-spacing: 1.8px !important;
+    }
+
+    .unified-menu a,
+    .unified-menu .menu-btn,
+    .clean-navbar .action-btn {
+        min-height: 32px !important;
+        padding: 0 9px !important;
+        font-size: 9px !important;
+        border-radius: 10px !important;
+    }
+
+    .mobile-mode-bar {
+        margin: 5px 6px 7px !important;
+    }
+
+    .mobile-mode-toggle {
+        min-height: 36px !important;
+        padding: 6px 9px !important;
+    }
+
+    .mobile-mode-current {
+        font-size: 12px !important;
+    }
+
+    .mobile-mode-icon {
+        font-size: 17px !important;
+    }
+
+    .stage {
+        padding-top: 5px !important;
+    }
+}
