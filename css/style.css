@@ -3682,3 +3682,33 @@ body > .app-bar.clean-navbar {
         bottom: 104px !important;
     }
 }
+
+
+/* ===============================
+   Mobile single-row stats text larger
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats .stat-label {
+        font-size: 6.8px !important;
+        line-height: 1.05 !important;
+        letter-spacing: .08px !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 10px !important;
+        line-height: 1.08 !important;
+        font-weight: 900 !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats .stat-label {
+        font-size: 6.2px !important;
+        line-height: 1.05 !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 9.2px !important;
+        line-height: 1.06 !important;
+    }
+}
