@@ -3623,3 +3623,27 @@ body > .app-bar.clean-navbar {
         bottom: 58px !important;
     }
 }
+
+
+/* ===============================
+   Mobile lower section slightly higher
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats {
+        bottom: 30px !important;
+    }
+
+    .alert-hub {
+        bottom: 74px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats {
+        bottom: 26px !important;
+    }
+
+    .alert-hub {
+        bottom: 70px !important;
+    }
+}
