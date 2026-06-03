@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RETINA AI - Smart Coach</title>
+    <meta name="theme-color" content="#020617">
+    <meta name="description" content="Kamera destekli kişisel postür ve egzersiz form koçu.">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <div id="welcome-cover">
+        <h1>RETINA AI</h1>
+        <p>SMART COACH</p>
+        <div class="welcome-btns">
+            <button class="btn-main btn-calib" onclick="initApp(true)">🎯 Kalibrasyonla Başla</button>
+            <button class="btn-main btn-default" onclick="initApp(false)">▶️ Varsayılanla Devam Et</button>
+        </div>
+    </div>
+
+    <div id="calib-menu" class="modal-overlay" style="display: none;">
+        <h2>KALİBRASYON YÖNÜNÜ SEÇİN</h2>
+        <div class="calib-options" id="calib-options-container"></div>
+        <button class="btn-main btn-calib" onclick="finishCalibration()">✅ BİTİR VE UYGULA</button>
+    </div>
+
+    <div id="rec-modal" class="modal-overlay" style="display: none;">
+        <div id="rec-content">
+            <h2 style="color: #f59e0b;">💡 AKILLI ÖNERİ</h2>
+            <div id="rec-text"></div>
+            <button class="btn-main btn-default" style="border-color: #f59e0b; color: #f59e0b;"
+                onclick="closeRecommendations()">KAPAT</button>
+        </div>
+    </div>
+
+    <div id="calib-screen" class="modal-overlay" style="display: none; z-index: 4000;">
+        <h2 id="calib-step-text">HAZIRLANIN</h2>
+        <div id="counter">5</div>
+        <p style="color:#94a3b8; font-size: 18px;">Hareketi kusursuz yapın ve bekleyin...</p>
+    </div>
+
+    <div class="app-bar clean-navbar">
+        <a class="brand-link" href="index.html" aria-label="RETINA AI Ana Sayfa">RETINA AI</a>
+        <div class="unified-menu" aria-label="RETINA AI menü">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="history.html">Geçmiş</a>
+            <a href="exercises.html">Egzersizler</a>
+            <a href="report.html">Rapor</a>
+            <button id="mute-toggle" class="menu-btn" onclick="toggleAudio()">🔊 Ses Açık</button>
+            <button class="menu-btn" onclick="RetinaCoach && RetinaCoach.saveCurrentSession && RetinaCoach.saveCurrentSession(true)">💾 Seansı Kaydet</button>
+            <button class="menu-btn" onclick="openCalibrationMenu()">🎯 Yeniden Kalibre Et</button>
+            <button class="menu-btn" onclick="showRecommendations()">💡 Öneriler</button>
+        </div>
+    </div>
+
+    <div class="stage">
+        <div class="viewport-wrapper">
+            <div class="live-stats">
+                <div class="stat-item"><span class="stat-label">Doğru Form</span><span id="timer-good"
+                        class="stat-value text-success">00:00</span></div>
+                <div class="stat-item"><span class="stat-label">Hatalı Form</span><span id="timer-bad"
+                        class="stat-value text-danger">00:00</span></div>
+                <div class="stat-item" style="margin-top:15px; border-top:1px solid #334155; padding-top:15px;"><span class="stat-label">Form Skoru</span><span id="form-score" class="stat-value text-success">100</span></div>
+                <div class="score-meter"><span id="form-score-bar"></span></div>
+                <div class="stat-item"><span class="stat-label">Analiz Güveni</span><span id="confidence-score" class="stat-value">--%</span></div>
+                <div class="stat-item"><span class="stat-label">Tekrar / Set</span><span id="rep-counter" class="stat-value">0 / 0</span></div>
+                <div class="stat-item"><span class="stat-label">İhlal Sayısı</span><span id="count-breaks" class="stat-value">0</span></div>
+            </div>
+
+            <!-- Postür Modu İçin Seçici (Ayakta / Oturarak) -->
+            <div id="posture-type-selector"
+                style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 101; display: flex; background: rgba(15, 23, 42, 0.9); border: 1px solid #334155; border-radius: 12px; padding: 4px; backdrop-filter: blur(10px);">
+                <button id="posture-btn-standing" onclick="setPostureType('standing')" class="posture-type-btn active"
+                    style="background: linear-gradient(135deg, var(--neon), var(--deep)); color: white; border: none; padding: 8px 16px; border-radius: 9px; font-weight: 800; font-size: 11px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease;">🧍
+                    Ayakta</button>
+                <button id="posture-btn-sitting" onclick="setPostureType('sitting')" class="posture-type-btn"
+                    style="background: transparent; color: #94a3b8; border: none; padding: 8px 16px; border-radius: 9px; font-weight: 800; font-size: 11px; cursor: pointer; text-transform: uppercase; margin-left: 4px; transition: all 0.3s ease;">🪑
+                    Oturarak</button>
+            </div>
+
+            <div id="auto-mode-badge" class="auto-mode-badge">AUTO MOD: HAZIR</div>
+            <div id="quality-badge" class="quality-badge">IŞIK / MESAFE: HAZIR</div>
+
+            <button id="camera-toggle-btn" onclick="toggleCameraFacing()"
+                style="position: absolute; top: 20px; right: 20px; z-index: 101; background: rgba(15, 23, 42, 0.9); border: 1px solid #334155; border-radius: 12px; padding: 10px 15px; color: var(--neon); font-weight: 800; font-size: 11px; cursor: pointer; backdrop-filter: blur(10px); display: flex; align-items: center; gap: 6px;">
+                🔄 ÖN KAMERA
+            </button>
+            <video id="input_video" autoplay playsinline muted style="display:none;"></video>
+            <canvas id="output_canvas"></canvas>
+            <div class="alert-hub">
+                <div id="alert-main">SİSTEM BAŞLATILIYOR</div>
+                <div id="alert-sub">Lütfen kameraya doğru pozisyon alın.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-shelf">
+        <button id="btn-posture" class="nav-item active" onclick="switchMode('posture')">POSTÜR</button>
+        <button id="btn-catcow" class="nav-item" onclick="switchMode('catcow')">KEDİ-İNEK</button>
+        <button id="btn-birddog" class="nav-item" onclick="switchMode('birddog')">KUŞ-KÖPEK</button>
+        <button id="btn-doorway" class="nav-item" onclick="switchMode('doorway')">EŞİK ESNEME</button>
+        <button id="btn-plank" class="nav-item" onclick="switchMode('plank')">PLANK</button>
+        <button id="btn-bridge" class="nav-item" onclick="switchMode('bridge')">KÖPRÜ</button>
+    </div>
+
+    <!-- Kamera Hata Modalı -->
+    <div id="camera-error-modal" class="modal-overlay" style="display: none; z-index: 5000;">
+        <div id="rec-content"
+            style="border-color: var(--danger); text-align: left; max-width: 90%; width: 500px; padding: 25px; box-sizing: border-box;">
+            <h2
+                style="color: var(--danger); margin-top: 0; font-size: 20px; display: flex; align-items: center; gap: 10px;">
+                ⚠️ KAMERA BAĞLANTISI BAŞARISIZ
+            </h2>
+            <div style="font-size: 14px; line-height: 1.6; color: #e2e8f0; margin-bottom: 20px;">
+                <p>Uygulama kameranıza erişemedi. Hata detayı: <br><strong id="camera-error-detail"
+                        style="color: #ff3d00;">NotAllowedError: Permission denied</strong></p>
+
+                <h3 style="color: var(--neon); font-size: 16px; margin: 15px 0 8px 0;">Olası Nedenler ve Çözümler:</h3>
+                <ul style="padding-left: 20px; margin: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>Yerel Bağlantı Kısıtlaması (Güvenli Olmayan Alan):</strong> Siteniz
+                        <code>content://</code> veya <code>file://</code> (örn. WhatsApp üzerinden doğrudan açma) ile
+                        başlatılmış. Mobil tarayıcılar güvenlik gerekçesiyle kamerayı <strong>sadece HTTPS</strong> veya
+                        <strong>localhost</strong> sitelerinde çalıştırır.
+                        <br><span style="color: var(--neon);">✓ Çözüm:</span> Dosyayı GitHub Pages, Netlify veya Vercel
+                        gibi ücretsiz ve HTTPS sunan bir platforma yükleyip oradaki link üzerinden açın.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Tarayıcı İzin Engeli:</strong> Adres çubuğundaki kilit simgesine veya site bilgi
+                        simgesine tıklayıp <strong>Kamera</strong> iznini <strong>"İzin Ver"</strong> konumuna getirin.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Telefon izinleri:</strong> Telefonunuzda uygulama izinleri bölümünden Chrome veya kullandığınız tarayıcı için kamera iznini açın.
+                    </li>
+                </ul>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-main btn-default" style="flex: 1; padding: 12px; font-size: 13px;"
+                    onclick="retryCamera()">Tekrar Dene</button>
+                <button class="btn-main btn-default"
+                    style="flex: 1; padding: 12px; font-size: 13px; border-color: #64748b; color: #94a3b8;"
+                    onclick="closeCameraError()">Kapat</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETINA AI Rapor</title>
+    <meta name="theme-color" content="#020617">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="page-shell">
+        <div class="app-bar">
+            <a class="brand-link" href="index.html">RETINA AI</a>
+            <nav class="app-nav">
+                <a href="index.html">Canlı Analiz</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="history.html">Geçmiş</a>
+                <a href="exercises.html">Egzersizler</a>
+                <a href="report.html" class="active">Rapor</a>
+            </nav>
+        </div>
+
+        <main class="page-container">
+            <section class="page-hero">
+                <div class="page-eyebrow">Rapor Önizleme</div>
+                <h1>Son seans raporu</h1>
+                <p>Son kaydın web önizlemesini burada görebilir ve aynı sayfadan PDF olarak indirebilirsin.</p>
+            </section>
+
+            <section class="panel-card" id="report-view"></section>
+        </main>
+    </div>
+
+    <script src="js/pages.js"></script>
+    <script>
+        const R = RetinaPages;
+        const s = R.latest();
+        const view = document.getElementById('report-view');
+
+        function downloadReport() {
+            if (!s) return;
+            R.exportPDF(s);
+        }
+
+        if (!s) {
+            view.innerHTML = '<div class="empty-state">Henüz raporlanacak seans yok.</div>';
+        } else {
+            view.innerHTML = `
+                <div class="panel-title">
+                    <h2>${R.date(s.savedAt)} Raporu</h2>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+                        <button class="action-btn btn-pdf" onclick="downloadReport()">📊 PDF İNDİR</button>
+                        <a class="action-btn" href="index.html">Canlı Analize Git</a>
+                    </div>
+                </div>
+                <div class="card-grid">
+                    <div class="dashboard-card"><strong>Skor</strong><span>${s.score}</span></div>
+                    <div class="dashboard-card"><strong>Toplam</strong><span>${R.fmt(s.totalTime)}</span></div>
+                    <div class="dashboard-card"><strong>Doğru</strong><span>${R.fmt(s.totalGood)}</span></div>
+                    <div class="dashboard-card"><strong>İhlal</strong><span>${s.breaks || 0}</span></div>
+                </div>
+                <div class="panel-card"><h2>En Sık Hata</h2><p>${s.topError || 'Hata kaydı yok.'}</p></div>
+                <div class="panel-card"><h2>Öneriler</h2><ul>${R.advice(s.topError).map(a => `<li>${a}</li>`).join('')}</ul></div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "RETINA AI Smart Coach",
+  "short_name": "RETINA AI",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "description": "Kamera destekli postür ve egzersiz form koçu.",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
