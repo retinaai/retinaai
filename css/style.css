@@ -3843,3 +3843,152 @@ body > .app-bar.clean-navbar {
         font-size: 18px !important;
     }
 }
+
+
+/* ===============================
+   Mobile stats text centered
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats .stat-item {
+        text-align: center !important;
+        justify-items: center !important;
+        align-content: center !important;
+    }
+
+    .live-stats .stat-label,
+    .live-stats .stat-value {
+        width: 100% !important;
+        text-align: center !important;
+        justify-self: center !important;
+        align-self: center !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats .stat-item {
+        text-align: center !important;
+        justify-items: center !important;
+    }
+
+    .live-stats .stat-label,
+    .live-stats .stat-value {
+        text-align: center !important;
+    }
+}
+
+
+/* ===============================
+   Mobile stats label/value spacing fix
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats .stat-item {
+        gap: 4px !important;
+    }
+
+    .live-stats .stat-label {
+        margin-bottom: 1px !important;
+    }
+
+    .live-stats .stat-value {
+        margin-top: 1px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats .stat-item {
+        gap: 3px !important;
+    }
+}
+
+
+/* ===============================
+   Mobile alert slightly higher
+   =============================== */
+@media (max-width: 768px) {
+    .alert-hub {
+        bottom: 86px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .alert-hub {
+        bottom: 82px !important;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 760px) {
+    .alert-hub {
+        bottom: 90px !important;
+    }
+}
+
+
+/* ===============================
+   Mobile alert/stats overlap fix
+   Leave a clearer gap between alert panel and stats panel
+   =============================== */
+@media (max-width: 768px) {
+    .alert-hub {
+        bottom: 112px !important;
+        z-index: 103 !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .alert-hub {
+        bottom: 106px !important;
+        z-index: 103 !important;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 760px) {
+    .alert-hub {
+        bottom: 118px !important;
+        z-index: 103 !important;
+    }
+}
+
+
+/* ===============================
+   Mobile clearer gap between alert and stats panels
+   =============================== */
+@media (max-width: 768px) {
+    .alert-hub {
+        bottom: 126px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .alert-hub {
+        bottom: 120px !important;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 760px) {
+    .alert-hub {
+        bottom: 132px !important;
+    }
+}
+
+
+/* ===============================
+   Mobile panel gap balanced
+   Slightly reduce the alert/stats gap
+   =============================== */
+@media (max-width: 768px) {
+    .alert-hub {
+        bottom: 120px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .alert-hub {
+        bottom: 114px !important;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 760px) {
+    .alert-hub {
+        bottom: 126px !important;
+    }
+}
