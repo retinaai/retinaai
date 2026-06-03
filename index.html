@@ -279,6 +279,94 @@
         })();
     </script>
 
+
+    <script>
+        (function () {
+            let allStatsTimer = null;
+            let allStatsRefreshTimer = null;
+
+            function statTitle(item) {
+                return item.dataset.fullLabel || item.querySelector('.stat-label')?.textContent?.trim() || '';
+            }
+
+            function statValue(item) {
+                return item.querySelector('.stat-value')?.textContent?.trim() || '';
+            }
+
+            function clearAllStatBubbles() {
+                clearInterval(allStatsRefreshTimer);
+                allStatsRefreshTimer = null;
+
+                const row = document.querySelector('.live-stats');
+                if (row) row.classList.remove('stats-all-open');
+
+                document.querySelectorAll('.live-stats .stat-item').forEach((item) => {
+                    item.classList.remove('stat-touch-inline-active', 'inline-left-edge', 'inline-right-edge');
+                    const bubble = item.querySelector('.stat-inline-pop');
+                    if (bubble) bubble.remove();
+                });
+            }
+
+            function refreshAllStatBubbles() {
+                const row = document.querySelector('.live-stats.stats-all-open');
+                if (!row) return;
+
+                row.querySelectorAll('.stat-item').forEach((item) => {
+                    const bubble = item.querySelector('.stat-inline-pop');
+                    if (!bubble) return;
+
+                    const titleEl = bubble.querySelector('strong');
+                    const valueEl = bubble.querySelector('span');
+
+                    if (titleEl) titleEl.textContent = statTitle(item);
+                    if (valueEl) valueEl.textContent = statValue(item);
+                });
+            }
+
+            function openAllStatBubbles(row) {
+                clearAllStatBubbles();
+                row.classList.add('stats-all-open');
+
+                row.querySelectorAll('.stat-item').forEach((item) => {
+                    item.classList.add('stat-touch-inline-active');
+
+                    const bubble = document.createElement('div');
+                    bubble.className = 'stat-inline-pop';
+                    bubble.innerHTML = `<strong>${statTitle(item)}</strong><span>${statValue(item)}</span>`;
+                    item.appendChild(bubble);
+                });
+
+                refreshAllStatBubbles();
+
+                clearInterval(allStatsRefreshTimer);
+                allStatsRefreshTimer = setInterval(refreshAllStatBubbles, 250);
+
+                clearTimeout(allStatsTimer);
+                allStatsTimer = setTimeout(clearAllStatBubbles, 2600);
+            }
+
+            document.addEventListener('click', function (event) {
+                if (!window.matchMedia('(max-width: 768px)').matches) return;
+
+                const row = event.target.closest('.live-stats');
+                if (row) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+
+                    if (row.classList.contains('stats-all-open')) {
+                        clearAllStatBubbles();
+                    } else {
+                        openAllStatBubbles(row);
+                    }
+                    return;
+                }
+
+                clearAllStatBubbles();
+            }, true);
+        })();
+    </script>
+
 </body>
 
 </html>
