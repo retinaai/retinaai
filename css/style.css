@@ -3775,3 +3775,71 @@ body > .app-bar.clean-navbar {
         right: 4px !important;
     }
 }
+
+
+/* ===============================
+   Mobile texts bigger
+   =============================== */
+@media (max-width: 768px) {
+    /* Alt istatistik paneli yazıları */
+    .live-stats .stat-label {
+        font-size: 8px !important;
+        line-height: 1.1 !important;
+        letter-spacing: .08px !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 11.8px !important;
+        line-height: 1.12 !important;
+        font-weight: 900 !important;
+    }
+
+    /* Uyarı paneli yazıları */
+    #alert-main {
+        font-size: 13px !important;
+        line-height: 1.14 !important;
+    }
+
+    #alert-sub {
+        font-size: 9.5px !important;
+        line-height: 1.18 !important;
+    }
+
+    /* Üstteki Postür hamburger satırı yazıları */
+    .mobile-mode-current {
+        font-size: 14px !important;
+        line-height: 1.08 !important;
+    }
+
+    .mobile-mode-icon {
+        font-size: 20px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats .stat-label {
+        font-size: 7.2px !important;
+        line-height: 1.08 !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 10.6px !important;
+        line-height: 1.1 !important;
+    }
+
+    #alert-main {
+        font-size: 12px !important;
+    }
+
+    #alert-sub {
+        font-size: 8.8px !important;
+    }
+
+    .mobile-mode-current {
+        font-size: 13px !important;
+    }
+
+    .mobile-mode-icon {
+        font-size: 18px !important;
+    }
+}
