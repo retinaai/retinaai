@@ -37,9 +37,6 @@
         let pendingSpeechAlert = null;
         let pendingSpeechTimer = null;
         let spokenAlertKeysThisCycle = new Set();
-        let pendingPositiveSpeech = null;
-        let pendingPositiveTimer = null;
-        let lastPositiveSpeechAt = 0;
 
         function normalizeSpeechText(txt) {
             return String(txt || '').replace(/\s+/g, ' ').trim();
@@ -144,47 +141,6 @@
             lastSpeechTime = Date.now();
             lastSpokenAt = lastSpeechTime;
             lastSpokenText = text;
-        }
-
-        function schedulePositiveSpeech(delay = 350) {
-            if (pendingPositiveTimer) clearTimeout(pendingPositiveTimer);
-            pendingPositiveTimer = setTimeout(() => {
-                pendingPositiveTimer = null;
-                drainPendingPositiveSpeech();
-            }, delay);
-        }
-
-        function drainPendingPositiveSpeech() {
-            if (!pendingPositiveSpeech) return;
-            if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-                schedulePositiveSpeech(350);
-                return;
-            }
-            const item = pendingPositiveSpeech;
-            const data = sessionData[item.modeName || mode];
-            if (!data || data.lastState !== 'good') {
-                pendingPositiveSpeech = null;
-                return;
-            }
-            if (Date.now() - lastPositiveSpeechAt < 4500) {
-                pendingPositiveSpeech = null;
-                return;
-            }
-            pendingPositiveSpeech = null;
-            lastPositiveSpeechAt = Date.now();
-            speakNow(item.text, { type: 'system', key: 'positive-form', force: false });
-        }
-
-        function queuePositiveSpeech(txt) {
-            const cleanText = normalizeSpeechText(txt);
-            if (!audioEnabled || !cleanText) return;
-            if (Date.now() - lastPositiveSpeechAt < 4500) return;
-            pendingPositiveSpeech = { text: cleanText, modeName: mode, createdAt: Date.now() };
-            if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
-                schedulePositiveSpeech(350);
-                return;
-            }
-            drainPendingPositiveSpeech();
         }
 
         function queueAlertSpeech(txt) {
@@ -2295,13 +2251,11 @@
                         aMain.innerText = "👀 VÜCUT TAM GÖRÜNMÜYOR"; aMain.className = "text-warn"; aSub.innerText = "Kameraya tam girin.";
                         currentModeData.lastState = 'neutral';
                         currentModeData.lastWarningText = '';
-                        pendingPositiveSpeech = null;
                         lastSpokenText = '';
                         if (typeof resetSpeechAlertCycle === 'function') resetSpeechAlertCycle();
                     }
                     else if (isSetupError) {
                         // Pozisyon hatasında da mesaj değişirse yeni uyarıyı sesli oku.
-                        pendingPositiveSpeech = null;
                         aMain.innerText = "⛔ POZİSYON HATASI"; aMain.className = "text-warn"; aSub.innerText = warningText;
                         const setupWarningChanged = currentModeData.lastWarningText !== warningText;
                         if (currentModeData.lastState !== 'setupError' || setupWarningChanged) {
@@ -2312,19 +2266,11 @@
                     }
                     else {
                         if (isGood) {
-                            const previousState = currentModeData.lastState;
                             currentModeData.good += delta; aMain.innerText = "✅ KUSURSUZ FORM"; aMain.className = "text-success"; aSub.innerText = "Mükemmel, pozisyonu bozmayın.";
+                            if (currentModeData.lastState === 'bad' || currentModeData.lastState === 'setupError') { announce("Formunuz düzeldi.", true); lastSpokenText = ""; }
                             currentModeData.lastState = 'good';
                             currentModeData.lastWarningText = '';
-                            if (previousState !== 'good') {
-                                resetSpeechAlertCycle();
-                                if (previousState === 'bad' || previousState === 'setupError') {
-                                    queuePositiveSpeech("Formunuz düzeldi.");
-                                    lastSpokenText = "";
-                                }
-                            }
                         } else {
-                            pendingPositiveSpeech = null;
                             currentModeData.bad += delta; aMain.innerText = "⚠️ FORM BOZUK"; aMain.className = "text-danger"; aSub.innerText = warningText;
                             const warningChanged = currentModeData.lastWarningText !== warningText;
                             if (currentModeData.lastState !== 'bad') {
