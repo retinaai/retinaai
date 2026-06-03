@@ -3647,3 +3647,38 @@ body > .app-bar.clean-navbar {
         bottom: 70px !important;
     }
 }
+
+
+/* ===============================
+   Mobile lower section pushed higher again
+   =============================== */
+@media (max-width: 768px) {
+    .live-stats {
+        bottom: 52px !important;
+    }
+
+    .alert-hub {
+        bottom: 98px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .live-stats {
+        bottom: 48px !important;
+    }
+
+    .alert-hub {
+        bottom: 92px !important;
+    }
+}
+
+/* Short mobile screens */
+@media (max-width: 480px) and (max-height: 760px) {
+    .live-stats {
+        bottom: 56px !important;
+    }
+
+    .alert-hub {
+        bottom: 104px !important;
+    }
+}
