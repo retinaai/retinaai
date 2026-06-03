@@ -3374,3 +3374,156 @@ body > .app-bar.clean-navbar {
         font-size: 7px !important;
     }
 }
+
+
+/* ===============================
+   Mobile panels slightly higher
+   =============================== */
+@media (min-width: 481px) and (max-width: 768px) {
+    .live-stats {
+        bottom: 18px !important;
+    }
+    .alert-hub {
+        bottom: 96px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .live-stats {
+        bottom: 18px !important;
+    }
+    .alert-hub {
+        bottom: 94px !important;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 760px) {
+    .live-stats {
+        bottom: 16px !important;
+    }
+    .alert-hub {
+        bottom: 88px !important;
+    }
+}
+
+
+/* ===============================
+   Mobile panels higher - stronger adjustment
+   =============================== */
+@media (min-width: 481px) and (max-width: 768px) {
+    .live-stats {
+        bottom: 36px !important;
+    }
+
+    .alert-hub {
+        bottom: 116px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .live-stats {
+        bottom: 34px !important;
+    }
+
+    .alert-hub {
+        bottom: 118px !important;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 760px) {
+    .live-stats {
+        bottom: 30px !important;
+    }
+
+    .alert-hub {
+        bottom: 108px !important;
+    }
+}
+
+
+/* ===============================
+   Mobile text size increase
+   =============================== */
+@media (max-width: 768px) {
+    #alert-main {
+        font-size: 13px !important;
+        line-height: 1.12 !important;
+    }
+
+    #alert-sub {
+        font-size: 9.5px !important;
+        line-height: 1.18 !important;
+    }
+
+    .live-stats .stat-label {
+        font-size: 7.4px !important;
+        line-height: 1.05 !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 10.8px !important;
+        line-height: 1.08 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #alert-main {
+        font-size: 12px !important;
+    }
+
+    #alert-sub {
+        font-size: 9px !important;
+    }
+
+    .live-stats .stat-label {
+        font-size: 6.6px !important;
+    }
+
+    .live-stats .stat-value {
+        font-size: 9.6px !important;
+    }
+}
+
+
+/* ===============================
+   Mobile alert: narrower and right-aligned
+   =============================== */
+@media (max-width: 768px) {
+    .alert-hub {
+        left: auto !important;
+        right: 10px !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: 250px !important;
+        padding: 7px 10px !important;
+        border-radius: 13px !important;
+        text-align: left !important;
+    }
+
+    #alert-main {
+        font-size: 12px !important;
+        line-height: 1.1 !important;
+    }
+
+    #alert-sub {
+        font-size: 8.5px !important;
+        line-height: 1.15 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .alert-hub {
+        right: 8px !important;
+        max-width: 220px !important;
+        padding: 6px 8px !important;
+        border-radius: 12px !important;
+    }
+
+    #alert-main {
+        font-size: 11px !important;
+    }
+
+    #alert-sub {
+        font-size: 8px !important;
+    }
+}
